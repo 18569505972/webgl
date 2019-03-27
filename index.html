@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>随机颜色与简单动画</title>
+</head>
+
+<body>
+    <script type="text/javascript" src="three.js"></script>
+    <script type="text/javascript">
+    // 创建场景
+    var scene = new THREE.Scene()
+    // 创建相机
+    // 相机类型正交投影和透视投影
+    // 正交投影OrthographicCamera(left,right,top,bottom,near,far ),视体为立方体,参数分别代表立方体各个面视口
+    // 透视投影PerspectiveCamera(fov, aspect, near, far) ,视体为锥体,参数分别为可视角度、宽高比、近景距离、远景距离
+    var camera = new THREE.PerspectiveCamera()
+    // 渲染器
+    var renderer = new THREE.WebGLRenderer()
+    // 设置渲染空间大小
+    renderer.setSize(window.innerWidth, window.innerHeight)
+    // 将元素导入窗口
+    document.body.appendChild(renderer.domElement)
+    // 立方体盒子模型，参数为长、宽、高
+    var geometry = new THREE.BoxGeometry(1, 1, 1)
+    // 材质设置颜色
+    var material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true })
+    // 网格
+    var cube = new THREE.Mesh(geometry, material)
+    // 点函数封装
+    THREE.Vector3 = (x, y, z) => {
+        this.x = x || 0
+        this.y = y || 0
+        this.z = z || 0
+    }
+    // 点的两种创建方法
+    var point1 = new THREE.Vector3(6, 7, 8)
+    var point2 = new THREE.Vector3()
+    point2.set(5, 6, 9)
+    // 将对象添加到原点处
+    scene.add(cube);
+    // 移动相机默认的原点坐标
+    camera.position.z = 5;
+
+    function render() {
+        // 类似于定时器的循环绘制
+        requestAnimationFrame(render);
+        // render( scene, camera, renderTarget, forceClear )参数分别为场景,相机,渲染目标，渲染前清除画面
+        renderer.render(scene, camera);
+        // 控制旋转动画
+        cube.rotation.x += 0.1;
+        cube.rotation.y += 0.1;
+    }
+    render();
+    </script>
+</body>
+
+</html>
